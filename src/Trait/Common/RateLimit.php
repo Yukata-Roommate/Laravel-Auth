@@ -3,6 +3,7 @@
 namespace YukataRm\Laravel\Auth\Trait\Common;
 
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\RedirectResponse;
 
 /**
  * Rate Limit trait
@@ -97,7 +98,9 @@ trait RateLimit
      */
     protected function reachedRateLimit(): RedirectResponse
     {
-        return $this->redirectToBack($this->withRateLimitErrors());
+        return redirect()
+            ->back()
+            ->withErrors($this->withRateLimitErrors());
     }
 
     /**

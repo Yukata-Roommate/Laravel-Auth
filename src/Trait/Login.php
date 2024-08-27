@@ -22,12 +22,12 @@ trait Login
     /**
      * login
      * 
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $loginRequest
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(Request $request): RedirectResponse
+    public function login(Request $loginRequest): RedirectResponse
     {
-        $this->request = $request;
+        $this->_loginRequest = $loginRequest;
 
         if ($this->tooManyAttempts()) return $this->reachedRateLimit();
 
@@ -41,32 +41,21 @@ trait Login
      *----------------------------------------*/
 
     /**
-     * request
+     * login request
      * 
      * @var \Illuminate\Http\Request
      */
-    protected Request $request;
+    private Request $_loginRequest;
 
     /**
-     * credentials key
+     * get credentials key
      * 
-     * @var array<string>
+     * @return array<string>
      */
-    protected array $credentials = ["email", "password"];
-
-    /**
-     * remember key
-     * 
-     * @var string
-     */
-    protected string $remember = "remember";
-
-    /**
-     * with input key
-     * 
-     * @var array<string>
-     */
-    protected array $withInput = ["email"];
+    protected function credentialsKey(): array
+    {
+        return property_exists($this, "credentials") ? $this->credentials : ["email", "password"];
+    }
 
     /**
      * get credentials
@@ -75,7 +64,17 @@ trait Login
      */
     protected function credentials(): array
     {
-        return $this->request->only($this->credentials);
+        return $this->_loginRequest->only($this->credentialsKey());
+    }
+
+    /**
+     * get remember key
+     * 
+     * @return string
+     */
+    protected function rememberKey(): string
+    {
+        return property_exists($this, "remember") ? $this->remember : "remember";
     }
 
     /**
@@ -85,7 +84,17 @@ trait Login
      */
     protected function remember(): bool
     {
-        return $this->request->filled($this->remember);
+        return $this->_loginRequest->filled($this->rememberKey());
+    }
+
+    /**
+     * get with input key
+     * 
+     * @return array<string>
+     */
+    protected function withInputKey(): array
+    {
+        return property_exists($this, "withInput") ? $this->withInput : ["email"];
     }
 
     /**
@@ -95,7 +104,7 @@ trait Login
      */
     protected function withInput(): array
     {
-        return $this->request->only($this->withInput);
+        return $this->_loginRequest->only($this->withInputKey());
     }
 
     /**
@@ -172,7 +181,7 @@ trait Login
      */
     protected function sessionRegenerate(): void
     {
-        $this->request->session()->regenerate();
+        $this->_loginRequest->session()->regenerate();
     }
 
     /**

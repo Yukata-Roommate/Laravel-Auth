@@ -20,12 +20,12 @@ trait Logout
     /**
      * logout
      * 
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $logoutRequest
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function logout(Request $request): RedirectResponse
+    protected function logout(Request $logoutRequest): RedirectResponse
     {
-        $this->request = $request;
+        $this->_logoutRequest = $logoutRequest;
 
         $this->guardLogout();
 
@@ -41,11 +41,11 @@ trait Logout
      *----------------------------------------*/
 
     /**
-     * request
+     * logout request
      * 
      * @var \Illuminate\Http\Request
      */
-    protected Request $request;
+    private Request $_logoutRequest;
 
     /*----------------------------------------*
      * Method
@@ -68,7 +68,7 @@ trait Logout
      */
     protected function sessionInvalidate(): void
     {
-        $this->request->session()->invalidate();
+        $this->_logoutRequest->session()->invalidate();
     }
 
     /**
@@ -78,7 +78,7 @@ trait Logout
      */
     protected function sessionRegenerateToken(): void
     {
-        $this->request->session()->regenerateToken();
+        $this->_logoutRequest->session()->regenerateToken();
     }
 
     /**
