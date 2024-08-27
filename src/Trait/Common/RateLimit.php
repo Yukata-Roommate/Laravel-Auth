@@ -16,13 +16,13 @@ trait RateLimit
      *----------------------------------------*/
 
     /**
-     * get rate limit key
+     * whether use rate limit
      * 
-     * @return string
+     * @return bool
      */
-    protected function rateLimitKey(): string
+    protected function useRateLimit(): bool
     {
-        return property_exists($this, "rateLimitKey") ? $this->rateLimitKey : request()->ip();
+        return property_exists($this, "useRateLimit") ? $this->useRateLimit : true;
     }
 
     /**
@@ -43,6 +43,17 @@ trait RateLimit
     protected function rateLimitDecay(): int
     {
         return property_exists($this, "rateLimitDecay") ? $this->rateLimitDecay : 300;
+    }
+
+
+    /**
+     * get rate limit key
+     * 
+     * @return string
+     */
+    protected function rateLimitKey(): string
+    {
+        return request()->ip();
     }
 
     /**
@@ -76,7 +87,7 @@ trait RateLimit
      */
     protected function tooManyAttempts(): bool
     {
-        return !RateLimiter::tooManyAttempts($this->rateLimitKey(), $this->rateLimit());
+        return $this->useRateLimit() && RateLimiter::tooManyAttempts($this->rateLimitKey(), $this->rateLimit());
     }
 
     /**
@@ -96,6 +107,8 @@ trait RateLimit
      */
     protected function hitRateLimit(): void
     {
+        if (!$this->useRateLimit()) return;
+
         RateLimiter::hit($this->rateLimitKey(), $this->rateLimitDecay());
     }
 
@@ -106,6 +119,8 @@ trait RateLimit
      */
     protected function clearRateLimit(): void
     {
+        if (!$this->useRateLimit()) return;
+
         RateLimiter::clear($this->rateLimitKey());
     }
 }

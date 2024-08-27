@@ -2,8 +2,6 @@
 
 namespace YukataRm\Laravel\Auth\Trait\Common;
 
-use Illuminate\Http\Request;
-
 /**
  * Property trait
  * 
@@ -11,16 +9,6 @@ use Illuminate\Http\Request;
  */
 trait Property
 {
-    /**
-     * get request
-     * 
-     * @return \Illuminate\Http\Request
-     */
-    protected function request(): Request
-    {
-        return request();
-    }
-
     /**
      * get guard name
      * 

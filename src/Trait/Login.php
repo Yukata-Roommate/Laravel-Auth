@@ -6,7 +6,7 @@ use YukataRm\Laravel\Auth\Trait\Common\Property;
 use YukataRm\Laravel\Auth\Trait\Common\RateLimit;
 
 use Illuminate\Http\RedirectResponse;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -22,11 +22,18 @@ trait Login
     /**
      * login
      * 
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(): RedirectResponse
+    public function login(Request $request): RedirectResponse
     {
+        $this->request = $request;
+
         if ($this->tooManyAttempts()) return $this->reachedRateLimit();
+
+        if (!$this->attemptLogin()) return $this->failedLogin();
+
+        return $this->successLogin();
     }
 
     /*----------------------------------------*
@@ -34,25 +41,32 @@ trait Login
      *----------------------------------------*/
 
     /**
+     * request
+     * 
+     * @var \Illuminate\Http\Request
+     */
+    protected Request $request;
+
+    /**
      * credentials key
      * 
      * @var array<string>
      */
-    protected $credentials = ["email", "password"];
+    protected array $credentials = ["email", "password"];
 
     /**
      * remember key
      * 
      * @var string
      */
-    protected $remember = "remember";
+    protected string $remember = "remember";
 
     /**
      * with input key
      * 
      * @var array<string>
      */
-    protected $withInput = ["email"];
+    protected array $withInput = ["email"];
 
     /**
      * get credentials
@@ -61,7 +75,7 @@ trait Login
      */
     protected function credentials(): array
     {
-        return $this->request()->only($this->credentials);
+        return $this->request->only($this->credentials);
     }
 
     /**
@@ -71,7 +85,7 @@ trait Login
      */
     protected function remember(): bool
     {
-        return $this->request()->filled($this->remember);
+        return $this->request->filled($this->remember);
     }
 
     /**
@@ -81,7 +95,7 @@ trait Login
      */
     protected function withInput(): array
     {
-        return $this->request()->only($this->withInput);
+        return $this->request->only($this->withInput);
     }
 
     /**
@@ -121,6 +135,16 @@ trait Login
     {
         $this->hitRateLimit();
 
+        return $this->failedLoginRedirect();
+    }
+
+    /**
+     * get failed login redirect
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function failedLoginRedirect(): RedirectResponse
+    {
         return redirect()
             ->back()
             ->withInput($this->withInput())
@@ -134,10 +158,30 @@ trait Login
      */
     protected function successLogin(): RedirectResponse
     {
-        $this->request()->session()->regenerate();
+        $this->sessionRegenerate();
 
         $this->clearRateLimit();
 
+        return $this->successLoginRedirect();
+    }
+
+    /**
+     * session regenerate
+     * 
+     * @return void
+     */
+    protected function sessionRegenerate(): void
+    {
+        $this->request->session()->regenerate();
+    }
+
+    /**
+     * get success login redirect
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function successLoginRedirect(): RedirectResponse
+    {
         return redirect()->intended($this->route());
     }
 }
