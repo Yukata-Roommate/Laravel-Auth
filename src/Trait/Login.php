@@ -117,6 +117,36 @@ trait Login
         return [];
     }
 
+    /**
+     * get whether logout other devices
+     * 
+     * @return bool
+     */
+    protected function logoutOtherDevices(): bool
+    {
+        return property_exists($this, "logoutOtherDevices") ? $this->logoutOtherDevices : false;
+    }
+
+    /**
+     * get password key
+     * 
+     * @return string
+     */
+    protected function passwordKey(): string
+    {
+        return property_exists($this, "password") ? $this->password : "password";
+    }
+
+    /**
+     * get password
+     * 
+     * @return string
+     */
+    protected function password(): string
+    {
+        return $this->_loginRequest->input($this->passwordKey());
+    }
+
     /*----------------------------------------*
      * Method
      *----------------------------------------*/
@@ -171,6 +201,8 @@ trait Login
 
         $this->clearRateLimit();
 
+        $this->runLogoutOtherDevices();
+
         return $this->successLoginRedirect();
     }
 
@@ -182,6 +214,18 @@ trait Login
     protected function sessionRegenerate(): void
     {
         $this->_loginRequest->session()->regenerate();
+    }
+
+    /**
+     * run logout other devices
+     * 
+     * @return void
+     */
+    protected function runLogoutOtherDevices(): void
+    {
+        if (!$this->logoutOtherDevices()) return;
+
+        Auth::logoutOtherDevices($this->password());
     }
 
     /**
