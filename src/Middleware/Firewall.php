@@ -13,7 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
  * 
  * @package YukataRm\Laravel\Auth\Middleware
  */
-abstract class LogoutUser extends BaseMiddleware
+abstract class Firewall extends BaseMiddleware
 {
     /**
      * run middleware handle
