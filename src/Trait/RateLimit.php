@@ -1,6 +1,6 @@
 <?php
 
-namespace YukataRm\Laravel\Auth\Trait\Common;
+namespace YukataRm\Laravel\Auth\Trait;
 
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\RedirectResponse;
@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 /**
  * Rate Limit trait
  * 
- * @package YukataRm\Laravel\Auth\Trait\Common
+ * @package YukataRm\Laravel\Auth\Trait
  */
 trait RateLimit
 {

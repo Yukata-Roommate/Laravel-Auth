@@ -1,8 +1,8 @@
 <?php
 
-namespace YukataRm\Laravel\Auth\Trait;
+namespace YukataRm\Laravel\Auth;
 
-use YukataRm\Laravel\Auth\Trait\Common\Property;
+use YukataRm\Laravel\Auth\Trait\Property;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 /**
  * Logout trait
  * 
- * @package YukataRm\Laravel\Auth\Trait
+ * @package YukataRm\Laravel\Auth
  */
 trait Logout
 {
