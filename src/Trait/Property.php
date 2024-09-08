@@ -10,27 +10,13 @@ namespace YukataRm\Laravel\Auth\Trait;
 trait Property
 {
     /**
-     * default guard
-     * 
-     * @var string
-     */
-    protected string $defaultGuard = "web";
-    
-    /**
-     * default route
-     * 
-     * @var string
-     */
-    protected string $defaultRoute = "home";
-
-    /**
      * get guard name
      * 
      * @return string
      */
     protected function guard(): string
     {
-        return property_exists($this, "guard") ? $this->guard : $this->defaultGuard;
+        return property_exists($this, "guard") ? $this->guard : "web";
     }
 
     /**
@@ -40,6 +26,6 @@ trait Property
      */
     protected function route(): string
     {
-        return property_exists($this, "route") ? $this->route : $this->defaultRoute;
+        return property_exists($this, "route") ? $this->route : "welcome";
     }
 }

@@ -21,11 +21,11 @@ abstract class LogoutUser extends BaseMiddleware
     use Property;
 
     /**
-     * default route
+     * route
      * 
      * @var string
      */
-    protected string $defaultRoute = "login";
+    protected string $route = "login";
 
     /**
      * run middleware handle
