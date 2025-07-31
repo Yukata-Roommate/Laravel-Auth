@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use YukataRm\Laravel\Auth\Middlewares\LogoutUser as BaseMiddleware;
+
+/**
+ * Logout User Middleware
+ */
+class LogoutUser extends BaseMiddleware {}

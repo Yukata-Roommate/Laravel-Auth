@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use YukataRm\Laravel\Auth\Controllers\LoginController as BaseController;
+
+/**
+ * Auth Login Controller
+ */
+class LoginController extends BaseController {}

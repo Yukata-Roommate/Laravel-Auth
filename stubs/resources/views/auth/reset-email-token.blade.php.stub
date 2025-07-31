@@ -1,0 +1,1 @@
+@extends('yr-auth::reset-email-token')

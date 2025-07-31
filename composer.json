@@ -1,0 +1,42 @@
+{
+    "name": "yukata-roommate/laravel-auth",
+    "description": "Easy to implement authentication for Laravel",
+    "version": "1.0.0",
+    "keywords": [
+        "yukata-roommate",
+        "php",
+        "laravel",
+        "package",
+        "auth",
+        "laravel-auth"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yukata Roommate"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YukataRm\\Laravel\\Auth\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YukataRm\\Laravel\\Auth\\ServiceProvider"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=8.3.0",
+        "laravel/framework": "^11.0 || ^12.0",
+        "yukata-roommate/laravel-command": "^1.0.0",
+        "yukata-roommate/laravel-db": "^1.0.0",
+        "yukata-roommate/laravel-mail": "^1.0.0",
+        "yukata-roommate/laravel-middleware": "^1.0.0",
+        "yukata-roommate/laravel-model": "^1.0.0",
+        "yukata-roommate/random": "^1.0.0",
+        "yukata-roommate/text": "^1.0.0"
+    }
+}

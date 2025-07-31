@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use YukataRm\Laravel\Auth\Controllers\ResetEmailTokenController as BaseController;
+
+/**
+ * Auth Reset Email Token Controller
+ */
+class ResetEmailTokenController extends BaseController {}

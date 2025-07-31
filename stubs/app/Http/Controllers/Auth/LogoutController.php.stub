@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use YukataRm\Laravel\Auth\Controllers\LogoutController as BaseController;
+
+/**
+ * Auth Logout Controller
+ */
+class LogoutController extends BaseController {}
